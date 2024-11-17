@@ -13,10 +13,6 @@ ctf_IP = input("What is the ip of the initial target ?")
 hostfileD = ctf_IP + "  " +  urlCTF
 #subprocess.call(['sudo', 'echo', hostfileD, "> /etc/hosts"])  to be tested on linux
 
-
-
-
-
 def robottxt():
     print(hostfileD)
     url = urlCTF + "/robots.txt"

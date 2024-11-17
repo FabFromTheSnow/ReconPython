@@ -13,48 +13,82 @@ ctf_IP = input("What is the ip of the initial target ?")
 hostfileD = ctf_IP + "  " +  urlCTF
 #subprocess.call(['sudo', 'echo', hostfileD, "> /etc/hosts"])  to be tested on linux
 
-def robottxt():
-    print(hostfileD)
+webserverS = False
+webserver = False
+
+def CheckWeb():
+    global webserverS
+    global webserver
+    print("Check for webserver")
+
+    # Check HTTPS
+    try:
+        page = urlopen("https://" + urlCTF)
+        html_bytes = page.read()
+    except:
+        print("No https server")
+        webserverS = False
+    else:
+        print("https server detected")
+        webserverS = True
+
+    try:
+        page = urlopen("http://" + urlCTF)
+        html_bytes = page.read()
+    except:
+        print("No http server")
+        webserver = False
+    else:
+        print("http server detected")
+        webserver = True
+
+def robot():
+    print("Check for robots")
     url = urlCTF + "/robots.txt"
-    print(url)
-    try:
-        page = urlopen("https://" + url)
-        html_bytes = page.read()
-        html = html_bytes.decode("utf-8")
-        print(html)
-        return(url)
-    except:
-        pass
-    try:
-        page = urlopen("http://" + url)
-        html_bytes = page.read()
-        html = html_bytes.decode("utf-8")
-        print(html)
-        return(url)
-    except:
-        print("there is no robots.txt")
+    if webserverS:
+        try:
+            page = urlopen("https://" + url)
+            html_bytes = page.read()
+            robots = html_bytes.decode("utf-8")
+        except:
+            print("No robots")
+        else:
+            print(robots)
+    elif webserver:       
+        try:
+            page = urlopen("http://" + url)
+            html_bytes = page.read()
+            robots = html_bytes.decode("utf-8")
+        except:
+            print("No robots")
+        else:
+            print(robots)
 
-def sitemapXML():
-    print(hostfileD)
+def CheckFile():
     url = urlCTF + "/sitemap.xml"
-    print(url)
-    try:
-        page = urlopen("https://" + url)
-        html_bytes = page.read()
-        html = html_bytes.decode("utf-8")
-        print(html)
-        return(url)
-    except:
-        pass
-    try:
-        page = urlopen("http://" + url)
-        html_bytes = page.read()
-        html = html_bytes.decode("utf-8")
-        print(html)
-        return(url)
-    except:
-        print("there is no sitemap")
+    print("Check for sitemap")
+    if webserverS:
+        try:
+            page = urlopen("https://" + url)
+            html_bytes = page.read()
+            sitemap = html_bytes.decode("utf-8")
+            print(sitemap)
+        except:
+            print("No sitemap")
+    elif webserver:   
+        try:
+            page = urlopen("http://" + url)
+            html_bytes = page.read()
+            sitemap = html_bytes.decode("utf-8")
+            print(sitemap)
+        except:
+            print("No sitemap")
+    robot()    
+
+        
+        
 
 
-robottxt()
-sitemapXML()
+CheckWeb()
+CheckFile()
+

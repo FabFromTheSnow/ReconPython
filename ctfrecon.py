@@ -13,18 +13,19 @@ ctf_IP = input("What is the ip of the initial target ?")
 hostfileD = ctf_IP + "  " +  urlCTF
 #subprocess.call(['sudo', 'echo', hostfileD, "> /etc/hosts"])  to be tested on linux
 
-webserverS = False
+webserverS = False  
 webserver = False
 
+
 def CheckWeb():
-    global webserverS
-    global webserver
+    global webserverS, webserver
+
     print("Check for webserver")
 
     # Check HTTPS
     try:
         page = urlopen("https://" + urlCTF)
-        html_bytes = page.read()
+ 
     except:
         print("No https server")
         webserverS = False
@@ -34,7 +35,6 @@ def CheckWeb():
 
     try:
         page = urlopen("http://" + urlCTF)
-        html_bytes = page.read()
     except:
         print("No http server")
         webserver = False
@@ -42,7 +42,33 @@ def CheckWeb():
         print("http server detected")
         webserver = True
 
-def robot():
+def fetch(file):
+    if webserverS == True:
+            try:
+                page = urlopen("https://" + urlCTF + "/" + file)
+                html_bytes = page.read()
+                content = html_bytes.decode("utf-8")
+            except:
+                print(r"{file} not availlable")
+            else:
+                print("file : " + file)
+                print(content)
+    elif webserver == True:
+            try:
+                page = urlopen("http://" + urlCTF + "/" + file)
+                html_bytes = page.read()
+                content = html_bytes.decode("utf-8")
+            except:
+                print(r"{file} not availlable")
+            else:
+                print("file : " + file)
+                print(content)
+    else:
+        print('no serv detected')
+
+
+
+'''def robot():
     print("Check for robots")
     url = urlCTF + "/robots.txt"
     if webserverS:
@@ -91,4 +117,6 @@ def CheckFile():
 
 CheckWeb()
 CheckFile()
-
+'''
+CheckWeb()
+fetch('robots.txt')

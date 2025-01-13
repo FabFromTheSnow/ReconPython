@@ -1,4 +1,4 @@
-#!/usr/bin/pythonb3
+#!/usr/bin/python3
 from urllib.request import urlopen
 import subprocess
 

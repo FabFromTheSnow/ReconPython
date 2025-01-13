@@ -3,7 +3,7 @@ from urllib.request import urlopen
 import subprocess
 
 print("CTF recon")
-ctf_platform_acronym = "." + input("What extension is use for your platform url(example : HTB, THM)")
+ctf_platform_acronym = "." + input("What extension is used for your platform url(example : HTB, THM)")
 ctf_platform_acronym.lower()
 
 ctf_Name = input("What is the name of this ctf ?")
@@ -26,7 +26,7 @@ def CheckWeb():
         page = urlopen("https://" + urlCTF)
         html_bytes = page.read()
     except:
-        print("No https server")
+        print("No https server or not yet reachable")
         webserverS = False
     else:
         print("https server detected")
@@ -36,7 +36,7 @@ def CheckWeb():
         page = urlopen("http://" + urlCTF)
         html_bytes = page.read()
     except:
-        print("No http server")
+        print("No http server not yet reachable")
         webserver = False
     else:
         print("http server detected")
